@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>Searching for XML Elements </TITLE>
+<SCRIPT>
+function readXMLData()
+{
+var xmlDocumentObject, id , name , addr, phone, email; xmlDocumentObject=new XMLHttpRequest();	xmlDocumentObject.open("GET","userlist.xml",false); xmlDocumentObject.send(); xmlDocumentObject=xmlDocumentObject.responseXML;		id	= xmlDocumentObject.getElementsByTagName("userid");	name	= xmlDocumentObject.getElementsByTagName("username");	address	= xmlDocumentObject.getElementsByTagName("address");	phone	= xmlDocumentObject.getElementsByTagName("phone");		email	= xmlDocumentObject.getElementsByTagName("email"); for
+(i = 0; i<id.length; i++)
+{
+output=id[i].firstChild.nodeValue; if (output == document.getElementById("myText").value)
+{displayDIV.innerHTML = id[i].firstChild.nodeValue + "<br>"
+ 
++ name[i].firstChild.nodeValue +"<br>" + address[i].firstChild.nodeValue
++"<br>" +
+phone[i].firstChild.nodeValue+"<br>"+ email[i].firstChild.nodeValue;
+} } }
+</SCRIPT>
+</HEAD>
+<BODY>
+<H1>Search User</H1>
+<input type="text" id="myText" value="">
+<input type="BUTTON" VALUE="Get User Details" ONCLICK="readXMLData()"> <P>
+<DIV ID="displayDIV"></DIV>
+</BODY>
+</HTML>
+
+
+userlist.xml
+
+
+<userlist>
+<userid>usr01</userid>
+<username>ABCD</username>
+<address> Coimbatore</address>
+<phone>1111111111</phone>
+<email>abcd@gmail.com</email>
+<userid>usr02</userid>
+<username>EFGH</username>
+<address>Dharmapurai</address>
+<phone>2222222222</phone>
+<email>efgh@gmail.com</email>
+<userid>usr03</userid>
+<username>IJKL</username>
+<address> Erode</address>
+<phone>3333333333</phone>
+<email>ijkl@gmail.com</email> <userid>usr04</userid>
+<username>MNOP</username>
+<address>Kallakurichi</address>
+<phone>4444444444</phone>
+<email>ssathish@gmail.com</email>
+<userid>usr05</userid>
+<username>QRST</username>
+<address>Tenkasi</address>
+<phone>5555555555</phone>
+<email>qrst@gmail.com</email>
+</userlist>

@@ -1,0 +1,83 @@
+PROGRAM home.html
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> <title>Insert title here</title>
+</head>
+<body>
+<form action="servlet1">
+Name:<input type="text" name="userName"/><br/>
+<input type="submit" value="Submit"/>
+</form>
+</body>
+</html>
+
+
+
+
+servlet1.java
+
+
+import java.io.IOException; import
+ 
+java.io.PrintWriter;	import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet; import
+javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletResponse; import javax.servlet.http.HttpSession;
+import java.util.*;
+/**
+* Servlet implementation class servlet1
+*/
+public class servlet1 extends HttpServlet
+{
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { try { response.setContentType("text/html"); PrintWriter out = response.getWriter(); String n=request.getParameter("userName"); out.println("Welcome Mr/Mrs."+n+"<br>"); HttpSession session = request.getSession(true); Date createTime = new Date(session.getCreationTime()); // Get last access time of this web page.
+Date lastAccessTime = new Date(session.getLastAccessedTime()); Integer visitCount = new Integer(0);
+String visitCountKey = new String("visitCount");
+String userIDKey = new String("userID"); String userID
+= new String("ABCD"); if (session.isNew())
+{
+session.setAttribute(userIDKey, userID);
+} else
+{ visitCount = (Integer)session.getAttribute(visitCountKey); visitCount
+= visitCount + 1; userID = (String)session.getAttribute(userIDKey);
+}
+session.setAttribute(visitCountKey, visitCount); out.println( "\nSession ID="+session.getId()+"<br>"); out.println(
+"Creation Time=" + createTime+"<br>"); out.println("Time of Last Access=" + lastAccessTime+"<br>"); out.println("User ID="
++ userID+"<br>"); out.println( "Number of visits=" + visitCount+"<br>");
+//creating form that have invisible textfield out.print("<form action='servlet2'>");
+out.print("<input type='hidden' name='uname' value=' "+n+"	'>");	out.print("<input
+type='hidden' name='vcount' value='
+ 
+"+visitCount+"	'	>"); out.print("<input type='submit' value='Print Hidden  form
+Data'>"); out.print("</form>"); out.close();
+}
+catch(Exception e)
+{
+System.out.println(e);
+}
+} }
+
+
+servlet2.java
+
+
+import java.io.IOException; import java.io.PrintWriter; import java.sql.Date;	import javax.servlet.ServletException; import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletResponse; import javax.servlet.http.HttpSession;
+/**
+* Servlet implementation class servlet2
+*/
+public class servlet2 extends HttpServlet
+{
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  try
+{
+response.setContentType("text/html"); PrintWriter out
+= response.getWriter();
+//Getting the value from the hidden field
+String	n=request.getParameter("uname");	String c=request.getParameter("vcount");	out.print("Hello Mr./Mrs. "+n+"\n"); out.print("you are visiting this Page = "+c+"th Times"); out.close();  } catch(Exception
+e)
+{
+System.out.println(e);
+}
+}
+}

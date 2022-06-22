@@ -1,0 +1,63 @@
+
+PROGRAM WEB SERVICE – CWS.java
+
+import java.sql.Statement; import java.sql.Connection; import java.sql.DriverManager; import java.sql.ResultSet; import java.util.Vector; import javax.jws.WebService; import javax.jws.WebMethod; import javax.jws.WebParam; @WebService(serviceName =
+"CWS") public class CWS {
+/**
+* Web service operation
+*/
+@WebMethod(operationName = "getInfo")
+public Vector getInfo(@WebParam(name = "pname") String pname) { Vector<String> v=new Vector<String>(); try
+{
+Class.forName("org.apache.derby.jdbc.ClientDriver");
+ 
+Connection con=DriverManager.getConnection("jdbc:derby://localhost:1527/P_DB"); Statement stmt=con.createStatement();
+String sql = "select * from product where pname="+ "'"+pname+"'"+ " "; ResultSetrs=stmt.executeQuery(sql); while(rs.next())
+{
+v.addElement(rs.getString(1)); v.addElement(rs.getString(2)); v.addElement(rs.getString(3)); }
+}
+catch(Exception e)
+{
+System.err.println(e.getMessage());
+} return v; } }
+
+
+WEB SERVICE CLIENT – index.html
+
+<html>
+<head>
+<title>PRODUCT REVIEWS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<form action="CUSINFO">
+SEARCH PRODUCT REVIEWS: <select name="product">
+<option>SAMSUNG</option>
+<option>SONY</option>
+<option>APPLE</option>
+</select>
+<input type="submit" value="submit" />
+</form>
+</body>
+</html>
+
+
+WEB SERVICE CLIENT – CUSINFO.java
+
+import java.io.IOException; import java.io.PrintWriter; import java.util.Iterator; import java.util.Vector; import javax.servlet.ServletException; import
+ 
+javax.servlet.http.HttpServlet; import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletResponse; import javax.xml.ws.WebServiceRef; import test.CWS_Service; public class CUSINFO extends HttpServlet {
+@WebServiceRef(wsdlLocation = "WEB- INF/wsdl/localhost_8080/CUSTOMERWS/CWS.wsdl") private CWS_Service service;
+protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws	ServletException,	IOException { response.setContentType("text/html;charset=UTF-8"); try	(PrintWriter out	= response.getWriter()) {
+/* TODO output your page here. You may use following sample code. */ String pname=request.getParameter("product"); Vector
+v=new Vector(getInfo(pname)); out.println("<!DOCTYPE html>"); out.println("<html>"); out.println("<head>"); out.println("<title>Servlet CUSINFO</title>"); out.println("</head>"); Iterator it=v.listIterator(); while(it.hasNext())
+{
+out.println("<body>");
+out.println("<table border=1><tr><th>PRODUCT NAME</th><th>RATING</th><th>REVIEWS</th></tr><tr><td>"+it.next()+"</td><td>"+it.n ext()+
+"</td><td>"+it.next()+"</td></tr></table>"); out.println("</body>"); out.println("</html>");
+}
+} }
+private java.util.List<java.lang.Object>getInfo(java.lang.Stringpname) {
+// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+// If the calling of port operations may lead to race condition some synchronization is required. test.CWS port = service.getCWSPort(); return port.getInfo(pname); }}
