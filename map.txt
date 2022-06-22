@@ -1,0 +1,53 @@
+map.html
+
+<html>
+<img src="tn.png" alt="Districts" usemap="#dmap">
+<map name="dmap">
+<area shape="rect" coords="423,397,641,445" href="dpi.html" alt="Dharmapuri">
+<area shape="circle" coords="511,509,60" href="salem.html" alt="Salem">
+<area shape="circle" coords="1048,149,10" href="chennai.html" alt="Chennai"> </map>
+</html>
+
+
+
+
+
+
+
+
+
+ 
+Chennai.html
+
+<html>
+<body>
+<img src="chennai.jpg">
+<center><h1>Welcome to Chennai City Page </h1></center>
+<h2>ABOUT DISTRICT</h2>
+<p>This is Chennai City. </p>
+</body>
+</html>
+
+
+dpi.html
+
+<html>
+<body>
+<img src="dpi.jpg">
+<center><h1>Welcome to Dharmapuri District Page </h1></center>
+<h2>ABOUT DISTRICT</h2>
+<p> This is Dharmapurai District. </p>
+</body>
+</html>
+
+
+salem.html
+
+<html>
+<body>
+<img src="salem.jpg">
+<center><h1>Welcome to Salem District Page </h1></center>
+<h2>ABOUT DISTRICT</h2>
+<p>This is Salem District. </p>
+</body>
+</html>
